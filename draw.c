@@ -9,37 +9,41 @@
 #include "gmath.h"
 
 void scanline_convert( struct matrix *points, int i, screen s, zbuffer zb ) {
-  double bx,by,mx,my,tx,ty,ctr,dx;
+  double bx,by,mx,my,tx,ty,ctr,dx0,dx1,dy;
   ty = points->m[1][i];
   tx = points->m[0][i];
-  my = 0;
-  for(int ctr = i; ctr < i+3; ctr++){
-    if(points->m[1][i] > ty){
+  my = -1000;
+  for(int ctr = i+1; ctr < i+3; ctr++){
+    if(points->m[1][ctr] > ty){
       mx = tx;
       my = ty;
-      ty = points->m[1][i];
-      tx = points->m[0][i];
+      ty = points->m[1][ctr];
+      tx = points->m[0][ctr];
     }
-    else if(points->m[1][i] <= ty){
-      if (my = 0){
-	my = points->m[1][i];
-	mx = points->m[0][i];
+    else if(points->m[1][ctr] <= ty){
+      if (my = -1000){
+	my = points->m[1][ctr];
+	mx = points->m[0][ctr];
       }
       else{
-	if (points->m[1][i] >= my){
+	if (points->m[1][ctr] >= my){
 	  by = my;
 	  bx = mx;
-	  my = points->m[1][i];
-	  mx = points->m[0][i];
+	  my = points->m[1][ctr];
+	  mx = points->m[0][ctr];
 	}
-	else if (points->m[1][i] <= my){
-	  by = points->m[1][i];
-	  bx = points->m[0][i];
+	else if (points->m[1][ctr] <= my){
+	  by = points->m[1][ctr];
+	  bx = points->m[0][ctr];
 	}
       }
     }
   }
-  
+  dx0 = (tx - bx) / (ty - by);
+  dx1 = (mx - bx) / (my - by);
+  for( ctr = by ; ctr < ty ; ctr++){
+    
+  }
 }
 
 
