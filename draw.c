@@ -12,6 +12,7 @@ void scanline_convert( struct matrix *points, int i, screen s, zbuffer zb ) {
   double bx,by,mx,my,tx,ty,ctr,dx;
   ty = points->m[1][i];
   tx = points->m[0][i];
+  my = 0;
   for(int ctr = i; ctr < i+3; ctr++){
     if(points->m[1][i] > ty){
       mx = tx;
@@ -19,10 +20,26 @@ void scanline_convert( struct matrix *points, int i, screen s, zbuffer zb ) {
       ty = points->m[1][i];
       tx = points->m[0][i];
     }
-    else if(points->m[1][i] < ty){
-      
+    else if(points->m[1][i] <= ty){
+      if (my = 0){
+	my = points->m[1][i];
+	mx = points->m[0][i];
+      }
+      else{
+	if (points->m[1][i] >= my){
+	  by = my;
+	  bx = mx;
+	  my = points->m[1][i];
+	  mx = points->m[0][i];
+	}
+	else if (points->m[1][i] <= my){
+	  by = points->m[1][i];
+	  bx = points->m[0][i];
+	}
+      }
     }
   }
+  
 }
 
 
